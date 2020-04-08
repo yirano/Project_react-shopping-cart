@@ -10,7 +10,7 @@ import ShoppingCart from './components/ShoppingCart';
 
 function App() {
   const [products] = useState(data);
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('myStorage')));
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('myStorage')) || []);
 
   const addItem = item => {
     setCart([...cart, item])
