@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { ProductContext } from './contexts/ProductContext'
 import { CartContext } from './contexts/CartContext'
@@ -9,21 +9,29 @@ import Navigation from './components/Navigation';
 import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 
+// const useStateWithLocalStorage = localStorageKey => {
+//   const [cart, setCart] = useState([] || JSON.stringify(localStorage.getItem(localStorageKey)));
+
+//   useEffect(() => {
+//     JSON.stringify(localStorage.setItem(localStorageKey, cart))
+//   }, [cart])
+//   return [cart, setCart]
+// }
+
 function App() {
   const [products] = useState(data);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('myStorage')));
 
   const addItem = item => {
-    // add the given item to the cart
-    console.log(cart);
     setCart([...cart, item])
-
-    // localStorage.setItem('cart', cart)
   };
-
   const removeItem = id => {
     setCart(cart.filter(item => item.id !== id))
   }
+
+  useEffect(() => {
+    localStorage.setItem('myStorage', JSON.stringify(cart))
+  }, [cart])
 
   return (
     <div className="App">
@@ -43,7 +51,7 @@ function App() {
           <ShoppingCart />
         </Route>
       </CartContext.Provider>
-    </div>
+    </div >
   );
 }
 
